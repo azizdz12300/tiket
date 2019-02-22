@@ -1,9 +1,31 @@
-client.event
-async def on_member_join(member):
-    print("That A Member Named " + member.name + " Join The Server !")
-    await client.send_message(member, "الرسالة الي تريدها في الخاص")
-    print("Sent Message To " + member.name)
+const rWlc = {}
+client.on('message', message => { 
+var prefix = "*";//البرفكس  
+if(message.channel.type === "dm") return;
+if(message.author.bot) return;
+   if(!rWlc[message.guild.id]) rWlc[message.guild.id] = { 
+    role: "U.T,!"
+  }
+const channel = rWlc[message.guild.id].role
+  if (message.content.startsWith(prefix + "autorole")) { 
+    if(!message.member.hasPermission(`MANAGE_GUILD`)) return;
+    let newrole = message.content.split(' ').slice(1).join(" ") 
+    if(!newrole) return message.reply(`**${prefix}autorole Role Name**`) 
+    rWlc[message.guild.id].role = newrole
+    message.channel.send(`**${message.guild.name}'s Role Has been changed to ${newrole}**`); 
+  }
 
-    role = discord.utils.get(member.server.roles, name="U.T,!")
-    await client.add_roles(member, role)
-    print (message.channel, "Added role '" + role.name + "' to " + member.name)
+
+client.on("guildMemberAdd", member => {
+      if(!rWlc[member.guild.id]) rWlc[member.guild.id] = {
+    role: "member"
+  }
+  const Role = rWlc[member.guild.id].role
+    const sRole = rWlc[member.guild.id].role
+    let Rrole = member.guild.roles.find('name', sRole); 
+  member.addRole(Rrole); 
+ 
+      
+      
+      }); 
+}); 
